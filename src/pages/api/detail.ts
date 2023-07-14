@@ -1,9 +1,11 @@
-import { DetailAds } from "@/types/ads";
+import { DetailAd } from "@/types/ads";
 import type { NextApiRequest, NextApiResponse } from "next/types";
+
+export type DetailAdResponse = { ad: DetailAd } | { error: string } | null;
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{ ads: DetailAds } | { error: string } | null>
+  res: NextApiResponse<DetailAdResponse>
 ) {
   const { method } = req;
   const { id } = req.query;
@@ -11,7 +13,7 @@ export default async function handler(
   switch (method) {
     case "GET": {
       console.log("detail: ", id);
-      const ads: DetailAds = {
+      const ad: DetailAd = {
         id: 52011541,
         access_site_id: 1009,
         img: "https://imageaws.popin.cc/ML/87fd5c62b1422b7c1c2623bc8e5960f7.png",
@@ -134,7 +136,7 @@ export default async function handler(
         ],
       };
 
-      return res.status(200).json({ ads });
+      return res.status(200).json({ ad });
     }
     default:
       res.setHeader("Allow", ["GET"]);

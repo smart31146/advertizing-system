@@ -6,6 +6,9 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import theme from "@/configs/mui/theme";
 import createEmotionCache from "@/configs/mui/createEmotionCache";
 import Layout from "@/components/layout";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "dayjs/locale/ja";
 
 const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
@@ -22,10 +25,12 @@ function MyApp(props: MyAppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">
+          <CssBaseline />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </LocalizationProvider>
       </ThemeProvider>
     </CacheProvider>
   );

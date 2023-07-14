@@ -1,4 +1,4 @@
-import { DetailAds } from "@/types/ads";
+import { DetailAd } from "@/types/ads";
 import { Container, Typography } from "@mui/material";
 import axios from "axios";
 import Head from "next/head";
@@ -6,8 +6,9 @@ import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
 } from "next/types";
+import { DetailAdResponse } from "../api/detail";
 
-type DetailPageProps = { detail: DetailAds };
+type DetailPageProps = { detail: DetailAd };
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -16,13 +17,13 @@ export const getServerSideProps = async (
   const { DOMEIN } = process.env;
   if (typeof id !== "string") return { notFound: true };
   const adsid = Number(id);
-  const res = await axios.get(`http://${DOMEIN}/api/detail`, {
+  const res = await axios.get<DetailAdResponse>(`http://${DOMEIN}/api/detail`, {
     params: { id: adsid },
   });
-  const data = res.data as { ads: DetailAds } | { error: string } | null;
+  const data = res.data;
   if (data == null) return { notFound: true };
   if ("error" in data) return { notFound: true };
-  return { props: { detail: data.ads } };
+  return { props: { detail: data.ad } };
 };
 
 const StudentsPage = ({ detail }: DetailPageProps) => {
