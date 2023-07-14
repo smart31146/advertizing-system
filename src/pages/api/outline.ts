@@ -2,7 +2,7 @@ import { OutlineAd, SearchOutlineAds } from "@/types/ads";
 import type { NextApiRequest, NextApiResponse } from "next/types";
 
 export type OutlineAdsResponse =
-  | { ads: OutlineAd[] }
+  | { ads: OutlineAd[]; total: number }
   | { error: string }
   | null;
 
@@ -15,7 +15,7 @@ export default async function handler(
 
   switch (method) {
     case "GET": {
-      console.log("keyword: ", searchData.keyword);
+      console.log(searchData);
       const ad: OutlineAd = {
         id: 52011541,
         access_site_id: 1009,
@@ -42,7 +42,7 @@ export default async function handler(
       };
       const ads = Array(20).fill(ad);
 
-      return res.status(200).json({ ads });
+      return res.status(200).json({ ads, total: 3567 });
     }
     default:
       res.setHeader("Allow", ["GET"]);

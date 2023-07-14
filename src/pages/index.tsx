@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Alert, Box, Stack, Typography } from "@mui/material";
+import { Alert, Box, Stack } from "@mui/material";
 import SearchBox from "@/components/top/searchBox";
 import AdList from "@/components/top/adList";
 import { useState } from "react";
@@ -7,6 +7,9 @@ import { OutlineAd } from "@/types/ads";
 
 const Top = () => {
   const [outlines, setOutlines] = useState<OutlineAd[]>([]);
+  const [pageCount, setPageCount] = useState<number>(10);
+  const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <>
@@ -16,12 +19,22 @@ const Top = () => {
       </Head>
       <Box component="main">
         <Stack spacing={2} sx={{ mt: 2 }}>
-          <Typography variant="h4" component="h2">
-            ホーム
-          </Typography>
-          <Alert severity="info">This is an info alert — check it out!</Alert>
-          <SearchBox outlines={outlines} setOutlines={setOutlines} />
-          <AdList outlines={outlines} setOutlines={setOutlines} />
+          <Alert severity="info">ここに重要なお知らせが入ります</Alert>
+          <SearchBox
+            outlines={outlines}
+            setOutlines={setOutlines}
+            page={page}
+            setPage={setPage}
+            setPageCount={setPageCount}
+            setLoading={setLoading}
+          />
+          <AdList
+            outlines={outlines}
+            page={page}
+            setPage={setPage}
+            pageCount={pageCount}
+            loading={loading}
+          />
         </Stack>
       </Box>
     </>

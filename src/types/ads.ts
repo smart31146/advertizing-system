@@ -32,6 +32,7 @@ export type SearchOutlineAds = {
   device: Devices;
   analysisRangeStart: number;
   analysisRangeEnd: number;
+  page: number;
 };
 
 export type DetailAd = {

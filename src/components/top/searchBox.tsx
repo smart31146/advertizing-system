@@ -56,9 +56,20 @@ const simpleDuring2Date = (simpleDuring: SimpleDurings): Date[] => {
 type SearchBoxProps = {
   outlines: OutlineAd[];
   setOutlines: Dispatch<SetStateAction<OutlineAd[]>>;
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  setPageCount: Dispatch<SetStateAction<number>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 };
 
-const SearchBox = ({ outlines, setOutlines }: SearchBoxProps) => {
+const SearchBox = ({
+  outlines,
+  setOutlines,
+  page,
+  setPage,
+  setPageCount,
+  setLoading,
+}: SearchBoxProps) => {
   const [keyword, setKeyword] = useState<string>("");
   const [simpleDuring, setSimpleDuring] = useState<SimpleDurings>("全期間");
   const [excludedKeyword, setExcludedKeyword] = useState<string>("");
@@ -71,11 +82,8 @@ const SearchBox = ({ outlines, setOutlines }: SearchBoxProps) => {
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
-  useEffect(() => {
-    setDuring(simpleDuring2Date(simpleDuring));
-  }, [simpleDuring]);
-
-  const handleSearchButton = async () => {
+  const getData = async () => {
+    setLoading(true);
     const searchData: SearchOutlineAds = {
       keyword,
       excludedKeyword,
@@ -87,16 +95,33 @@ const SearchBox = ({ outlines, setOutlines }: SearchBoxProps) => {
       device,
       analysisRangeStart: analysisRange[0],
       analysisRangeEnd: analysisRange[1],
+      page: page,
     };
     const res = await axios.get<OutlineAdsResponse>("/api/outline", {
       params: searchData,
     });
     if (res.data && "ads" in res.data) {
       setOutlines(res.data.ads);
+      setPageCount(Math.ceil(res.data.total / 100));
     } else if (res.data && "error" in res.data) {
       console.error(res.data.error);
     }
     console.log(outlines);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    setDuring(simpleDuring2Date(simpleDuring));
+  }, [simpleDuring]);
+
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
+  const handleSearchButton = () => {
+    setPage(1);
+    getData();
   };
 
   return (
