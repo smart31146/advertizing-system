@@ -1,5 +1,5 @@
 import { DetailAd } from "@/types/ads";
-import { Container, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import axios from "axios";
 import Head from "next/head";
 import {
@@ -7,6 +7,7 @@ import {
   GetServerSidePropsResult,
 } from "next/types";
 import { DetailAdResponse } from "../api/detail";
+import Detail from "@/components/detail";
 
 type DetailPageProps = { detail: DetailAd };
 
@@ -36,9 +37,9 @@ const StudentsPage = ({ detail }: DetailPageProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container>
-        <Typography>{detail.title}</Typography>
-      </Container>
+      <Box component="main" sx={{ mt: 4 }}>
+        <Detail ad={detail} />
+      </Box>
     </>
   );
 };

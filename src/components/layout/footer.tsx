@@ -1,10 +1,20 @@
+import { Container, Typography } from "@mui/material";
+
 const Footer = () => {
   return (
-    <footer className="footer">
-      <div className="container">
-        <span className="text-muted">Place sticky footer content here.</span>
-      </div>
-    </footer>
+    <Container
+      component="footer"
+      sx={{ width: { xs: "100vw", sm: "sm", md: "md", lg: "lg" } }}
+    >
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        align="center"
+        sx={{ mt: 2, mb: 2 }}
+      >
+        2023 &copy; project name
+      </Typography>
+    </Container>
   );
 };
 
