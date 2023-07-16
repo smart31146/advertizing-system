@@ -232,7 +232,7 @@ const AdList = ({
       />
       <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         <Pagination
-          count={10}
+          count={pageCount}
           page={page}
           color="primary"
           onChange={(_, value) => setPage(value)}

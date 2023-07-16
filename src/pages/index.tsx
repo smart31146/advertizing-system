@@ -4,12 +4,27 @@ import SearchBox from "@/components/top/searchBox";
 import AdList from "@/components/top/adList";
 import { useState } from "react";
 import { OutlineAd } from "@/types/ads";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import Loading from "@/components/auth/loading";
 
 const Top = () => {
   const [outlines, setOutlines] = useState<OutlineAd[]>([]);
   const [pageCount, setPageCount] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/auth/login");
+    },
+  });
+
+  if (status === "loading") {
+    return <Loading />;
+  }
 
   return (
     <>
