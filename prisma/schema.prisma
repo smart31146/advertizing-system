@@ -10,47 +10,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.String
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken String   @unique
-  userId       String   @db.ObjectId
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  hash    String
+  solt    String
+  api_key String
+  model   String
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @id @map("_id") @db.ObjectId
-  expires    DateTime
+model AdMainList {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  ad_title   String
+  ad_domain  String
+  ad_company String
+}
 
-  @@unique([identifier, token])
+model adDetailList {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  ad_id                String   @db.ObjectId
+  ad_imgUrl            String
+  ad_imgWidth          Int
+  ad_imgHeight         Int
+  ad_redirectUrl       String
+  ad_positionTop       Float
+  ad_positionLeft      Float
+  ad_ananlysisPerDay   Int
+  ad_createdTime       DateTime
+  ad_createdFormatTime String
 }

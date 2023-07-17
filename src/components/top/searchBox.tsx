@@ -15,7 +15,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import DateRangePicker from "../parts/dateRangePicker";
 import NumberRangePicker from "../parts/numberRangePicker";
 import axios from "axios";
-import { OutlineAdsResponse } from "@/pages/api/outline";
+import { OutlineAdsResponse } from "@/pages/api/ad/get_outline";
 
 type SimpleDurings =
   | "全期間"
@@ -97,7 +97,7 @@ const SearchBox = ({
       analysisRangeEnd: analysisRange[1],
       page: page,
     };
-    const res = await axios.get<OutlineAdsResponse>("/api/outline", {
+    const res = await axios.get<OutlineAdsResponse>("/api/ad/get_outline", {
       params: searchData,
     });
     if (res.data && "ads" in res.data) {

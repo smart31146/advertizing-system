@@ -6,7 +6,7 @@ import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
 } from "next/types";
-import { DetailAdResponse } from "../api/detail";
+import { DetailAdResponse } from "../api/ad/get_detail";
 import Detail from "@/components/detail";
 
 type DetailPageProps = { detail: DetailAd };
@@ -18,7 +18,7 @@ export const getServerSideProps = async (
   const { DOMEIN } = process.env;
   if (typeof id !== "string") return { notFound: true };
   const adsid = Number(id);
-  const res = await axios.get<DetailAdResponse>(`http://${DOMEIN}/api/detail`, {
+  const res = await axios.get<DetailAdResponse>(`${DOMEIN}/api/ad/get_detail`, {
     params: { id: adsid },
   });
   const data = res.data;

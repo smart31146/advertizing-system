@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Loading from "@/components/auth/loading";
 import { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
+import axios from "axios";
 
 type ChatGPTModels = "GPT3.5" | "GPT4";
 
@@ -21,20 +22,27 @@ const Chatgpt = () => {
   const [model, setModel] = useState<ChatGPTModels>("GPT3.5");
 
   const handleButtonClick = () => {
-    toast.promise(
-      new Promise((resolve) => {
-        setTimeout(() => {
-          const data = { id: 1, name: "John" };
-          console.log("data", data);
-          resolve(data);
-        }, 2000);
-      }),
-      {
-        loading: "保存中",
-        success: "保存しました",
-        error: "保存に失敗しました",
-      }
-    );
+    const promise = new Promise((resolve, reject) => {
+      axios
+        .post("/api/user/set_chatgpt", {
+          id: "user name",
+          openAiKey,
+          model,
+        })
+        .then((response) => {
+          console.log(response);
+          resolve(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+          reject();
+        });
+    });
+    toast.promise(promise, {
+      loading: "保存中",
+      success: "保存しました",
+      error: "保存に失敗しました",
+    });
   };
 
   if (status === "loading") {
