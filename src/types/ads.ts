@@ -64,3 +64,5 @@ export type AdPositions =
   | "下-右";
 export type AdTypes = "全て" | "テキスト広告" | "画像広告";
 export type Devices = "全て" | "携帯" | "パソコン";
+
+export type AdPastschartData = { dateFormat: string; count: number }[];
