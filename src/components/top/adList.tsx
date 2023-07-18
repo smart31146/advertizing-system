@@ -66,7 +66,7 @@ const AdList = ({
       }
     });
     setTitles(titles_);
-  }, [selectionModel]);
+  }, [selectionModel, rows]);
 
   return (
     <Card>
