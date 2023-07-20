@@ -1,0 +1,32 @@
+{
+    "theme_color": "#1976d2",
+    "background_color": "#f7f7f7",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "name": "ad-scraping",
+    "short_name": "ad-scraping",
+    "description": "\u5e83\u544a\u53d6\u5f97&\u4f5c\u6210\u30a2\u30d7\u30ea\u3067\u3059\uff0e",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

@@ -18,6 +18,15 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
           />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content={theme.palette.primary.main}
+          />
+          <meta name="apple-mobile-web-app-title" content="myapp" />
+          <link rel="apple-touch-icon" href="/icon-192x192.png" />
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="icon" sizes="192x192" href="/icon-192x192.png" />
           {(this.props as any).emotionStyleTags}
         </Head>
         <body>
