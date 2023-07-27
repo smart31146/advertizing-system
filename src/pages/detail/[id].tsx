@@ -15,10 +15,10 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<GetServerSidePropsResult<DetailPageProps>> => {
   const { id } = context.query;
-  const { DOMEIN } = process.env;
+  const { DOMAIN } = process.env;
   if (typeof id !== "string") return { notFound: true };
   const adsid = Number(id);
-  const res = await axios.get<DetailAdResponse>(`${DOMEIN}/api/ad/get_detail`, {
+  const res = await axios.get<DetailAdResponse>(`${DOMAIN}/api/ad/get_detail`, {
     params: { id: adsid },
   });
   const data = res.data;
