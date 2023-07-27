@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
+import HomeIcon from "@mui/icons-material/Home";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -35,7 +36,7 @@ const Header = () => {
             sx={{ flexGrow: 1 }}
             onClick={() => router.push("/")}
           >
-            広告収集アプリ
+            {/* 広告収集自動システム */}
           </Typography>
           {session ? (
             <>
@@ -56,6 +57,12 @@ const Header = () => {
                   "aria-labelledby": "basic-button",
                 }}
               >
+                <MenuItem onClick={() => router.push("/")}>
+                  <ListItemIcon>
+                    <HomeIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Topページ</ListItemText>
+                </MenuItem>
                 <MenuItem onClick={() => router.push("/chatgpt")}>
                   <ListItemIcon>
                     <SettingsSuggestIcon fontSize="small" />

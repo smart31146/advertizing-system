@@ -9,6 +9,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import { useSession } from "next-auth/react";
 import { Configuration, OpenAIApi } from "openai";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -25,6 +26,7 @@ const CreateAdDialog = ({ titles, open, setOpen }: Props) => {
   const [complete, setComplete] = useState<boolean>(false);
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string>("作成された広告文章です．");
+  const { data: session } = useSession();
 
   useEffect(() => {
     setQuestion(titles.join("\n\n"));
@@ -38,17 +40,21 @@ const CreateAdDialog = ({ titles, open, setOpen }: Props) => {
       .map((title, index) => `広告${index + 1}:「${title}」,`)
       .join("\n\n")
       .slice(0, -1);
+    if (!session || !session.user.api_key) {
+      toast.error("APIキーが設定されていません");
+      setLoading(false);
+      return;
+    }
     const configuration = new Configuration({
-      apiKey: "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_",
+      apiKey: session.user.api_key,
     });
     const openai = new OpenAIApi(configuration);
     const createAdPrompt = `私には以下の広告タイトルがあります:${ads}.これらを参考に,3つの新しい広告タイトルを生成してください.`;
-    console.log(createAdPrompt);
 
     const promise = new Promise((resolve, reject) => {
       openai
         .createChatCompletion({
-          model: "gpt-3.5-turbo",
+          model: session.user.model == "GPT3.5" ? "gpt-3.5-turbo" : "gpt-4",
           messages: [{ role: "user", content: createAdPrompt }],
         })
         .then((response) => {
@@ -72,9 +78,14 @@ const CreateAdDialog = ({ titles, open, setOpen }: Props) => {
         });
     });
     toast.promise(promise, {
-      loading: "作成中",
-      success: "作成しました",
-      error: "作成に失敗しました",
+      loading: `${
+        session.user.model == "GPT3.5" ? "gpt-3.5-turbo" : "gpt-4"
+      }で広告文章を作成中`,
+      success: "作成しました！",
+      error: `作成に失敗しました！${
+        session.user.model == "GPT4" &&
+        "apiキーがgpt-4に対応していない可能性があります"
+      }`,
     });
   };
 

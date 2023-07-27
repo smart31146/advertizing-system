@@ -12,7 +12,7 @@ const Footer = () => {
         align="center"
         sx={{ mt: 2, mb: 2 }}
       >
-        2023 &copy; project name
+        2023 &copy; 広告収集自動システム
       </Typography>
     </Container>
   );

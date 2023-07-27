@@ -37,7 +37,9 @@ const Top = () => {
       </Head>
       <Box component="main">
         <Stack spacing={2} sx={{ mt: 4 }}>
-          <Alert severity="info">ここに重要なお知らせが入ります</Alert>
+          <Alert severity="info">
+            GPT-4のモデルが使用できるようになりました!
+          </Alert>
           <SearchBox
             outlines={outlines}
             setOutlines={setOutlines}

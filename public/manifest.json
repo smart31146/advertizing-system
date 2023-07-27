@@ -1,12 +1,12 @@
 {
     "theme_color": "#1976d2",
     "background_color": "#f7f7f7",
-    "display": "standalone",
+    "display": "browser",
     "scope": "/",
     "start_url": "/",
-    "name": "ad-scraping",
-    "short_name": "ad-scraping",
-    "description": "\u5e83\u544a\u53d6\u5f97&\u4f5c\u6210\u30a2\u30d7\u30ea\u3067\u3059\uff0e",
+    "name": "\u5e83\u544a\u53ce\u96c6\u81ea\u52d5\u30b7\u30b9\u30c6\u30e0",
+    "short_name": "\u5e83\u544a\u53ce\u96c6\u81ea\u52d5\u30b7\u30b9\u30c6\u30e0",
+    "description": "\u5e83\u544a\u53d6\u5f97&\u4f5c\u6210\u3059\u308b\u30b5\u30fc\u30d3\u30b9\u3067\u3059\uff0e",
     "icons": [
         {
             "src": "/icon-192x192.png",

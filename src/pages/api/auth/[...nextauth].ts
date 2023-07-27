@@ -1,3 +1,6 @@
+import { comparePasswords } from "@/configs/bcript/hash";
+import { User } from "@prisma/client";
+import axios from "axios";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 // import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -18,18 +21,20 @@ export default NextAuth({
         password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid.
-        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        // You can also use the `req` object to obtain additional parameters
-        // (i.e., the request IP address)
-        // const res = await fetch("/your/endpoint", {
-        //   method: "POST",
-        //   body: JSON.stringify(credentials),
-        //   headers: { "Content-Type": "application/json" },
-        // });
-        const user = (await { name: credentials?.username }) as any;
+        if (credentials == null) return null;
+        const res = (await axios.get(
+          `${process.env.DOMAIN}/api/user/get_account`,
+          {
+            params: { name: credentials.username },
+          }
+        )) as { data: User | { error: string } | null };
+        if (res.data == null) return null;
+        if ("error" in res.data) return null;
+
+        const user = res.data as User;
+
+        const isMatch = await comparePasswords(credentials.password, user.hash);
+        if (!isMatch) return null;
 
         // If no error and we have user data, return it
         if (user) {
@@ -46,16 +51,19 @@ export default NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.name;
+        token.id = user.id;
         token.name = user.name;
+        token.api_key = user.api_key;
+        token.model = user.model;
       }
-      console.log({ token, user });
       return token;
     },
-    async session({ session, token, user }) {
-      console.log({ session, token, user });
-      // @ts-ignore
-      session.user.name = token.id as string;
+    async session({ session, token }) {
+      if ("model" in token) {
+        session.user.name = token.name as string;
+        session.user.api_key = token.api_key as string | null;
+        session.user.model = token.model as string;
+      }
       return session;
     },
   },

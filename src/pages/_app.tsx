@@ -23,7 +23,6 @@ function MyApp(props: MyAppProps) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <meta name="robots" content="noindex" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja">

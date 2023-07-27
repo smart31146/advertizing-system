@@ -35,7 +35,6 @@ const StudentsPage = ({ detail }: DetailPageProps) => {
         <title>{detail.title}</title>
         <meta name="description" content={detail.title} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Box component="main" sx={{ mt: 4 }}>
         <Detail ad={detail} />

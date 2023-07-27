@@ -3,7 +3,7 @@ import { Box, Button, Grid, MenuItem, TextField } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Loading from "@/components/auth/loading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
 
@@ -11,7 +11,7 @@ type ChatGPTModels = "GPT3.5" | "GPT4";
 
 const Chatgpt = () => {
   const router = useRouter();
-  const { status } = useSession({
+  const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
       router.push("/auth/login");
@@ -21,11 +21,24 @@ const Chatgpt = () => {
   const [openAiKey, setOpenAiKey] = useState<string>("");
   const [model, setModel] = useState<ChatGPTModels>("GPT3.5");
 
+  useEffect(() => {
+    console.log("session", session);
+    if (session) {
+      if (session.user.api_key) {
+        setOpenAiKey(session.user.api_key);
+      }
+      if (session.user.model) {
+        setModel(session.user.model as ChatGPTModels);
+      }
+    }
+  }, [session]);
+
   const handleButtonClick = () => {
+    if (!session) return;
     const promise = new Promise((resolve, reject) => {
       axios
         .post("/api/user/set_chatgpt", {
-          id: "user name",
+          name: session.user.name,
           openAiKey,
           model,
         })
@@ -38,11 +51,16 @@ const Chatgpt = () => {
           reject();
         });
     });
-    toast.promise(promise, {
-      loading: "保存中",
-      success: "保存しました",
-      error: "保存に失敗しました",
-    });
+    toast.promise(
+      promise,
+      {
+        loading: "保存中",
+        success:
+          "保存しました．変更を適応させるにはもう再ログインしてください．",
+        error: "保存に失敗しました",
+      },
+      { duration: 6000 }
+    );
   };
 
   if (status === "loading") {
