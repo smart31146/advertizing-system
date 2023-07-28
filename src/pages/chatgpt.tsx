@@ -70,7 +70,7 @@ const Chatgpt = () => {
   return (
     <>
       <Head>
-        <title>広告収集アプリ|アカウント</title>
+        <title>広告収集自動サービス|アカウント</title>
         <meta
           name="description"
           content="広告を収集して新しく広告を作成できます．"

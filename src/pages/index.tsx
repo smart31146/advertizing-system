@@ -29,7 +29,7 @@ const Top = () => {
   return (
     <>
       <Head>
-        <title>広告収集アプリ</title>
+        <title>広告収集自動サービス</title>
         <meta
           name="description"
           content="広告を収集して新しく広告を作成できます．"
