@@ -48,7 +48,7 @@ export type DetailAd = {
   position_top_per: number;
   position_left_per: number;
   position: AdPositions; //"全て" is for search. do not return.
-  pasts: { date: string; count: number }[];
+  pasts: { date: string; count: string }[];
 };
 
 export type AdPositions =

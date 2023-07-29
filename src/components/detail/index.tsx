@@ -35,7 +35,7 @@ const Detail = ({ ad }: Props) => {
     const pasts = ad.pasts.slice(-displayNum);
     pasts.forEach((past) => {
       const dateFormat = dayjs(past.date).format("MM/DD");
-      const count = past.count;
+      const count = isNaN(Number(past.count)) ? 0 : Number(past.count);
       pastsFormat_.push({ dateFormat, count });
     });
     setPastsFormat(pastsFormat_);
@@ -48,23 +48,34 @@ const Detail = ({ ad }: Props) => {
       const current = pasts.slice(n);
       const last = pasts.slice(0, n);
       const currentCount = current.reduce(
-        (sum, current) => sum + current.count,
+        (sum, current) =>
+          sum + (Number.isNaN(Number(current.count)) ? 0 : Number(current.count)),
         0
       );
-      const lastCount = last.reduce((sum, last) => sum + last.count, 0);
+      const lastCount = last.reduce(
+        (sum, last) =>
+          sum + (Number.isNaN(Number(last.count)) ? 0 : Number(last.count)),
+        0
+      );
       return { currentCount, lastCount };
     } else if (length >= n) {
       const current = ad.pasts.slice(-n);
       const last = ad.pasts.slice(0, length - n);
       const currentCount = current.reduce(
-        (sum, current) => sum + current.count,
+        (sum, current) =>
+          sum + (Number.isNaN(Number(current.count)) ? 0 : Number(current.count)),
         0
       );
-      const lastCount = last.reduce((sum, last) => sum + last.count, 0);
+      const lastCount = last.reduce(
+        (sum, last) =>
+          sum + (Number.isNaN(Number(last.count)) ? 0 : Number(last.count)),
+        0
+      );
       return { currentCount, lastCount };
     } else {
       const currentCount = ad.pasts.reduce(
-        (sum, current) => sum + current.count,
+        (sum, current) =>
+          sum + (Number.isNaN(Number(current.count)) ? 0 : Number(current.count)),
         0
       );
       const lastCount = 0;
