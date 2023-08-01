@@ -36,7 +36,7 @@ const AdList = ({
   useEffect(() => {
     const rows: GridRowsProp = outlines.map((outline) => {
       return {
-        id: outline.id,
+        id: outline._id,
         title: outline.title,
         img: outline.img,
         imgWidth: outline.img_width,

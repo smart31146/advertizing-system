@@ -13,7 +13,6 @@ declare module "next-auth" {
     };
   }
   interface User {
-    id: string;
     name: string;
     hash: string;
     api_key: string | null;

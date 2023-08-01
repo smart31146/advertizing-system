@@ -17,7 +17,7 @@ export const getServerSideProps = async (
   const { id } = context.query;
   const { DOMAIN } = process.env;
   if (typeof id !== "string") return { notFound: true };
-  const adsid = Number(id);
+  const adsid = id;
   const res = await axios.get<DetailAdResponse>(`${DOMAIN}/api/ad/get_detail`, {
     params: { id: adsid },
   });

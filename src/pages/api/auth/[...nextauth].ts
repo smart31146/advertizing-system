@@ -1,15 +1,19 @@
 import { comparePasswords } from "@/configs/bcript/hash";
-import { User } from "@prisma/client";
+// import { User } from "@prisma/client";
+import {User} from "@/types/ads";
 import axios from "axios";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
 // import { PrismaAdapter } from "@next-auth/prisma-adapter";
 // import prisma from "@/configs/prisma/prisma";
 
 export default NextAuth({
+  
   // adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
+
       // The name to display on the sign in form (e.g. 'Sign in with...')
       name: "Username & Password",
       // The credentials is used to generate a suitable form on the sign in page.
@@ -20,20 +24,23 @@ export default NextAuth({
         username: { label: "username", type: "text", placeholder: "" },
         password: { label: "password", type: "password" },
       },
+      
       async authorize(credentials) {
         if (credentials == null) return null;
+        console.log("req user")
         const res = (await axios.get(
           `${process.env.DOMAIN}/api/user/get_account`,
           {
             params: { name: credentials.username },
           }
-        )) as { data: User | { error: string } | null };
+        ));
         if (res.data == null) return null;
         if ("error" in res.data) return null;
 
-        const user = res.data as User;
-
-        const isMatch = await comparePasswords(credentials.password, user.hash);
+        const user = res.data;
+        console.log('user',user.userData)
+        // console.log('pass',user.hash)
+        const isMatch = await comparePasswords(credentials.password, user.userData.hash);
         if (!isMatch) return null;
 
         // If no error and we have user data, return it

@@ -97,6 +97,7 @@ const SearchBox = ({
       analysisRangeEnd: analysisRange[1],
       page: page,
     };
+    try {
     const res = await axios.get<OutlineAdsResponse>("/api/ad/get_outline", {
       params: searchData,
     });
@@ -106,9 +107,13 @@ const SearchBox = ({
     } else if (res.data && "error" in res.data) {
       console.error(res.data.error);
     }
+  } 
+  catch (error) {
+    console.error(error);
+  }
     console.log(outlines);
     setLoading(false);
-  };
+  }; 
 
   useEffect(() => {
     setDuring(simpleDuring2Date(simpleDuring));

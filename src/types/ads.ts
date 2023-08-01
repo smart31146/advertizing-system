@@ -1,6 +1,6 @@
+import { ObjectId } from "mongodb";
 export type OutlineAd = {
-  id: number;
-  analysis: number;
+  _id: ObjectId;
   img: string;
   img_width: number;
   img_height: number;
@@ -11,10 +11,11 @@ export type OutlineAd = {
   site_company_url: string;
   mobile: number; // 0: PC, 1: Mobile
   createtime: string;
+  analysis: string;
   createtime_format: string;
   position_top_per: number;
   position_left_per: number;
-  position: AdPositions; //"全て" is for search. do not return.
+  position: string; //"全て" is for search. do not return.
 };
 
 export type SearchOutlineAds = {
@@ -32,8 +33,7 @@ export type SearchOutlineAds = {
 };
 
 export type DetailAd = {
-  id: number;
-  analysis: number;
+  id: ObjectId;
   img: string;
   img_width: number;
   img_height: number;
@@ -49,6 +49,13 @@ export type DetailAd = {
   position_left_per: number;
   position: AdPositions; //"全て" is for search. do not return.
   pasts: { date: string; count: string }[];
+};
+export type User ={
+  id: ObjectId
+  name: string;
+  hash: string;
+  api_key: string | null;
+  model: string;
 };
 
 export type AdPositions =
